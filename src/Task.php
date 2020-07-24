@@ -6,6 +6,9 @@ namespace TaskForce;
 
 class Task
 {
+    const ROLE_DEVELOPER = 'developer';
+    const ROLE_CUSTOMER = 'customer';
+
     const STATUS_NEW = 'new';
     const STATUS_CANCEL = 'cancel';
     const STATUS_WORK = 'work';
@@ -32,24 +35,38 @@ class Task
         self::ACTION_FAIL => 'Отказаться',
     ];
 
-    const status_map = [
+    const STATUS_MAP = [
         self::ACTION_REPLY => self::STATUS_WORK,
         self::ACTION_CANCEL => self::STATUS_CANCEL,
         self::ACTION_DONE => self::STATUS_DONE,
         self::ACTION_FAIL => self::STATUS_FAIL,
     ];
 
-    const action_map = [
-        self::STATUS_NEW => [self::ACTION_REPLY, self::ACTION_CANCEL],
-        self::STATUS_CANCEL => null,
-        self::STATUS_WORK => [self::ACTION_DONE, self::ACTION_FAIL],
-        self::STATUS_DONE => null,
-        self::STATUS_FAIL => null,
+    const TASK_ROLE_MAP = [
+        self::ROLE_CUSTOMER => 'Создатель',
+        self::ROLE_DEVELOPER => 'Исполнитель'
+    ];
+
+    const ACTION_MAP = [
+        self::ROLE_CUSTOMER => [
+            self::STATUS_NEW => [self::ACTION_CANCEL],
+            self::STATUS_CANCEL => null,
+            self::STATUS_WORK => [self::ACTION_DONE],
+            self::STATUS_FAIL => null
+        ],
+        self::ROLE_DEVELOPER => [
+            self::STATUS_NEW => [self::ACTION_REPLY],
+            self::STATUS_CANCEL => null,
+            self::STATUS_WORK => [self::ACTION_FAIL],
+            self::STATUS_DONE => null,
+            self::STATUS_FAIL => null,
+        ]
+
     ];
 
     private $customer_id;
     private $developer_id;
-    private $status;
+    public $status;
 
     public function __construct($customer_id, $developer_id)
     {
@@ -57,14 +74,19 @@ class Task
         $this->developer_id = $developer_id;
     }
 
-    public function getStatus($action)
+    public function getNextStatus($action)
     {
-        return self::status_map[$action];
+        if (in_array($action, self::STATUS_MAP)) {
+            return self::STATUS_MAP[$action];
+        }
     }
 
-    public function getActions($status)
+    public function getActions($status, $id)
     {
-        return self::action_map[$status];
+        if ($id == $this->customer_id) {
+            return self::ACTION_MAP[self::ROLE_CUSTOMER];
+        }
+        return self::ACTION_MAP[self::ROLE_DEVELOPER];
     }
 
     public function getStatusMap()
@@ -79,6 +101,8 @@ class Task
 
     public function setStatus($status)
     {
-        $this->status = $status;
+        if (isset(self::STATUS_NAME[$status])) {
+            $this->status = $status;
+        }
     }
 }

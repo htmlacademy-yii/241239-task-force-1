@@ -1,0 +1,15 @@
+{
+    "name": "admin/241239-task-force-1",
+    "authors": [
+        {
+            "name": "htmlviktor",
+            "email": "47639976+htmlviktor@users.noreply.github.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+      "psr-4": {
+        "TaskForce\\": "src/"
+      }
+    }
+}

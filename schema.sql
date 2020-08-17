@@ -1,3 +1,35 @@
+CREATE DATABASE IF NOT EXISTS taskforce;
+CHARACTER SET utf8;
+
+USE taskforce;
+
+DROP TABLE IF EXISTS `categories`;
+
+DROP TABLE IF EXISTS `users`;
+
+DROP TABLE IF EXISTS `cities`;
+
+DROP TABLE IF EXISTS `files`;
+
+DROP TABLE IF EXISTS `profiles`;
+
+DROP TABLE IF EXISTS `profile_categories`;
+
+DROP TABLE IF EXISTS `profile_settings`;
+
+DROP TABLE IF EXISTS `tasks`;
+
+DROP TABLE IF EXISTS `profile_stats`;
+
+DROP TABLE IF EXISTS `profile_portfolios`;
+
+DROP TABLE IF EXISTS `task_files`;
+
+DROP TABLE IF EXISTS `task_feedbacks`;
+
+DROP TABLE IF EXISTS `task_message`;
+
+
 CREATE TABLE `categories` (
 	`id` int NOT NULL AUTO_INCREMENT,
 	`name` varchar(255) UNIQUE,

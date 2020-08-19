@@ -3,33 +3,6 @@ CHARACTER SET utf8;
 
 USE taskforce;
 
-DROP TABLE IF EXISTS `categories`;
-
-DROP TABLE IF EXISTS `users`;
-
-DROP TABLE IF EXISTS `cities`;
-
-DROP TABLE IF EXISTS `files`;
-
-DROP TABLE IF EXISTS `profiles`;
-
-DROP TABLE IF EXISTS `profile_categories`;
-
-DROP TABLE IF EXISTS `profile_settings`;
-
-DROP TABLE IF EXISTS `tasks`;
-
-DROP TABLE IF EXISTS `profile_stats`;
-
-DROP TABLE IF EXISTS `profile_portfolios`;
-
-DROP TABLE IF EXISTS `task_files`;
-
-DROP TABLE IF EXISTS `task_feedbacks`;
-
-DROP TABLE IF EXISTS `task_message`;
-
-
 CREATE TABLE `categories` (
 	`id` int NOT NULL AUTO_INCREMENT,
 	`name` varchar(255) UNIQUE,
@@ -38,8 +11,9 @@ CREATE TABLE `categories` (
 
 CREATE TABLE `users` (
 	`id` int NOT NULL AUTO_INCREMENT,
-	`email` varchar(255) UNIQUE,
-	`password` varchar(255),
+	`email` varchar(255) NOT NULL UNIQUE,
+	`password` varchar(255) NOT NULL,
+	`creation_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`)
 );
 
@@ -58,95 +32,94 @@ CREATE TABLE `files` (
 CREATE TABLE `profiles` (
 	`id` int NOT NULL AUTO_INCREMENT,
 	`user_id` int UNIQUE,
-	`name` varchar(255),
-	`city_id` int(255) UNIQUE,
+	`name` varchar(255) NOT NULL,
+	`city_id` int(255) NOT NULL,
 	`birthday` DATE,
-	`info` TEXT(255) NOT NULL,
-	`phone` varchar(255) NOT NULL,
-	`skype` varchar(255) NOT NULL,
-	`telegram` varchar(255) NOT NULL,
-	`avatar_file_id` int NOT NULL,
+	`info` TEXT(255),
+	`phone` varchar(255),
+	`skype` varchar(255),
+	`telegram` varchar(255),
+	`avatar_file_id` int,
 	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `profile_categories` (
 	`id` int NOT NULL AUTO_INCREMENT,
-	`profile_id` int,
-	`category_id` int,
+	`profile_id` int NOT NULL,
+	`category_id` int NOT NULL,
 	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `profile_settings` (
 	`id` int NOT NULL AUTO_INCREMENT,
-	`profile_id` int,
-	`notify_message` bool DEFAULT true,
-	`notify_action` bool DEFAULT true,
-	`notify_review` bool DEFAULT true,
-	`show_contacts` bool DEFAULT false,
-	`show_profile` bool DEFAULT false,
+	`profile_id` int NOT NULL,
+	`notify_message` bool NOT NULL DEFAULT true,
+	`notify_action` bool NOT NULL DEFAULT true,
+	`notify_review` bool NOT NULL DEFAULT true,
+	`show_contacts` bool NOT NULL DEFAULT false,
+	`show_profile` bool NOT NULL DEFAULT false,
 	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `tasks` (
 	`id` int NOT NULL AUTO_INCREMENT,
-	`profile_id` int,
-	`creation_time` DATETIME DEFAULT CURRENT_TIMESTAMP,
-	`category_id` int,
-	`title` varchar(255),
-	`description` TEXT,
-	`budget` int NOT NULL,
-	`expire_date` DATETIME NOT NULL,
-	`city_id` int,
-	`coordinate` point NOT NULL,
-	`contractor_id` int NOT NULL,
-	`assign_time` DATETIME NOT NULL,
-	`canceled_time` DATETIME NOT NULL,
-	`failed_time` DATETIME NOT NULL,
+	`profile_id` int NOT NULL,
+	`creation_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`category_id` int NOT NULL,
+	`title` varchar(255) NOT NULL,
+	`description` TEXT NOT NULL,
+	`budget` int,
+	`expire_date` DATETIME,
+	`city_id` int NOT NULL,
+	`coordinate` point,
+	`contractor_id` int,
+	`assign_time` DATETIME,
+	`canceled_time` DATETIME,
+	`failed_time` DATETIME,
 	`status` tinyint NOT NULL,
-	PRIMARY KEY (`id`)
-);
-
-CREATE TABLE `profile_stats` (
-	`id` int NOT NULL AUTO_INCREMENT,
-	`profile_id` int,
-	`tasks_total` int DEFAULT '0',
-	`tasks_failed` int DEFAULT '0',
-	`views` int DEFAULT '0',
-	`rating` tinyint DEFAULT '0',
 	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `profile_portfolios` (
 	`id` int NOT NULL AUTO_INCREMENT,
-	`profile_id` int,
-	`file_id` int,
+	`profile_id` int NOT NULL,
+	`file_id` int NOT NULL,
 	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `task_files` (
 	`id` int NOT NULL AUTO_INCREMENT,
-	`task_id` int,
-	`name` varchar(255),
+	`task_id` int NOT NULL,
+	`name` varchar(255) NOT NULL,
 	`file_id` int NOT NULL,
 	PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `task_feedbacks` (
+CREATE TABLE `task_response` (
 	`id` int NOT NULL AUTO_INCREMENT,
-	`creation_time` DATETIME DEFAULT CURRENT_TIMESTAMP,
-	`task_id` int,
-	`comment` TEXT NOT NULL,
+	`creation_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`task_id` int NOT NULL,
+	`comment` TEXT,
 	`profile_id` int NOT NULL,
 	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `task_message` (
 	`id` int NOT NULL AUTO_INCREMENT,
-	`creation_time` DATETIME DEFAULT CURRENT_TIMESTAMP,
-	`task_id` int,
-	`from_id` int,
-	`to_id` int,
-	`text` TEXT,
+	`creation_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`task_id` int NOT NULL,
+	`from_id` int NOT NULL,
+	`to_id` int NOT NULL,
+	`text` TEXT NOT NULL,
+	PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `task_feedbacks` (
+	`id` int NOT NULL AUTO_INCREMENT,
+	`task_id` int NOT NULL,
+	`profile_id` int NOT NULL,
+	`text` TEXT NOT NULL,
+	`rating` int NOT NULL,
 	PRIMARY KEY (`id`)
 );
 
@@ -168,8 +141,6 @@ ALTER TABLE `tasks` ADD CONSTRAINT `tasks_fk1` FOREIGN KEY (`category_id`) REFER
 
 ALTER TABLE `tasks` ADD CONSTRAINT `tasks_fk2` FOREIGN KEY (`city_id`) REFERENCES `cities`(`id`);
 
-ALTER TABLE `profile_stats` ADD CONSTRAINT `profile_stats_fk0` FOREIGN KEY (`profile_id`) REFERENCES `profiles`(`id`);
-
 ALTER TABLE `profile_portfolios` ADD CONSTRAINT `profile_portfolios_fk0` FOREIGN KEY (`profile_id`) REFERENCES `profiles`(`id`);
 
 ALTER TABLE `profile_portfolios` ADD CONSTRAINT `profile_portfolios_fk1` FOREIGN KEY (`file_id`) REFERENCES `files`(`id`);
@@ -178,9 +149,9 @@ ALTER TABLE `task_files` ADD CONSTRAINT `task_files_fk0` FOREIGN KEY (`task_id`)
 
 ALTER TABLE `task_files` ADD CONSTRAINT `task_files_fk1` FOREIGN KEY (`file_id`) REFERENCES `files`(`id`);
 
-ALTER TABLE `task_feedbacks` ADD CONSTRAINT `task_feedbacks_fk0` FOREIGN KEY (`task_id`) REFERENCES `tasks`(`id`);
+ALTER TABLE `task_response` ADD CONSTRAINT `task_response_fk0` FOREIGN KEY (`task_id`) REFERENCES `tasks`(`id`);
 
-ALTER TABLE `task_feedbacks` ADD CONSTRAINT `task_feedbacks_fk1` FOREIGN KEY (`profile_id`) REFERENCES `profiles`(`id`);
+ALTER TABLE `task_response` ADD CONSTRAINT `task_response_fk1` FOREIGN KEY (`profile_id`) REFERENCES `profiles`(`id`);
 
 ALTER TABLE `task_message` ADD CONSTRAINT `task_message_fk0` FOREIGN KEY (`task_id`) REFERENCES `tasks`(`id`);
 
@@ -188,3 +159,6 @@ ALTER TABLE `task_message` ADD CONSTRAINT `task_message_fk1` FOREIGN KEY (`from_
 
 ALTER TABLE `task_message` ADD CONSTRAINT `task_message_fk2` FOREIGN KEY (`to_id`) REFERENCES `profiles`(`id`);
 
+ALTER TABLE `task_feedbacks` ADD CONSTRAINT `task_feedbacks_fk0` FOREIGN KEY (`task_id`) REFERENCES `tasks`(`id`);
+
+ALTER TABLE `task_feedbacks` ADD CONSTRAINT `task_feedbacks_fk1` FOREIGN KEY (`profile_id`) REFERENCES `profiles`(`id`);

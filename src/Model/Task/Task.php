@@ -1,7 +1,7 @@
 <?php
 
 
-namespace TaskForce\Task;
+namespace TaskForce\Model\Task;
 
 
 class Task

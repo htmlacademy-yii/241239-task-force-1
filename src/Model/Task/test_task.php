@@ -2,7 +2,7 @@
 
 include_once '../vendor/autoload.php';
 
-use TaskForce\Task\Task;
+use TaskForce\Model\Task\Task;
 
 $task = new Task(1, 2);
 

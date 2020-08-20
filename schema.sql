@@ -57,7 +57,7 @@ CREATE TABLE `files` (
 
 CREATE TABLE `profiles` (
 	`id` int NOT NULL AUTO_INCREMENT,
-	`user_id` int NOT NULL UNIQUE,
+	`user_id` int NOT NULL,
 	`name` varchar(255) NOT NULL,
 	`city_id` int(255) NOT NULL,
 	`birthday` DATE,

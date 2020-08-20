@@ -29,10 +29,9 @@ DROP TABLE IF EXISTS `task_message`;
 
 DROP TABLE IF EXISTS `task_feedbacks`;
 
-
 CREATE TABLE `categories` (
 	`id` int NOT NULL AUTO_INCREMENT,
-	`name` varchar(255) UNIQUE,
+	`name` varchar(255) NOT NULL UNIQUE,
 	PRIMARY KEY (`id`)
 );
 
@@ -46,19 +45,19 @@ CREATE TABLE `users` (
 
 CREATE TABLE `cities` (
 	`id` int NOT NULL AUTO_INCREMENT,
-	`name` varchar(255) UNIQUE,
+	`name` varchar(255) NOT NULL UNIQUE,
 	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `files` (
 	`id` int NOT NULL AUTO_INCREMENT,
-	`path` varchar(255) UNIQUE,
+	`path` varchar(255) NOT NULL UNIQUE,
 	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `profiles` (
 	`id` int NOT NULL AUTO_INCREMENT,
-	`user_id` int UNIQUE,
+	`user_id` int NOT NULL UNIQUE,
 	`name` varchar(255) NOT NULL,
 	`city_id` int(255) NOT NULL,
 	`birthday` DATE,

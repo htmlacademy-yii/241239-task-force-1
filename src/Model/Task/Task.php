@@ -4,6 +4,8 @@
 namespace TaskForce\Model\Task;
 
 
+use TaskForce\Actions\CancelAction;
+
 class Task
 {
     const ROLE_DEVELOPER = 'developer';
@@ -49,7 +51,7 @@ class Task
 
     const ACTION_MAP = [
         self::ROLE_CUSTOMER => [
-            self::STATUS_NEW => [self::ACTION_CANCEL],
+            self::STATUS_NEW => [CancelAction::class],
             self::STATUS_CANCEL => null,
             self::STATUS_WORK => [self::ACTION_DONE],
             self::STATUS_FAIL => null

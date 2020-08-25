@@ -87,7 +87,7 @@ class Task
 
         $available_actions = [];
         foreach ($next_actions as $next_action){
-            $action = new $next_action;
+            $action = new $next_action();
             if($action->isAllowed($this->customer_id, $this->developer_id, $id)) {
                 $available_actions[] = $action;
             }

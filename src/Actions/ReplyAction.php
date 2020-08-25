@@ -4,7 +4,7 @@
 namespace TaskForce\Actions;
 
 
-class RespondAction extends AbstractAction
+class ReplyAction extends AbstractAction
 {
     public function isAllowed($customer_id, $developer_id, $user_id)
     {

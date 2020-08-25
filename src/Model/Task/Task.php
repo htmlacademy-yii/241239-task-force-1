@@ -74,6 +74,8 @@ class Task
         if ($id === $this->customer_id) {
             return self::ROLE_CUSTOMER;
         }
+
+        return null;
     }
 
     public function getAvailableActions($id)

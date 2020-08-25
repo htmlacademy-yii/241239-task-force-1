@@ -61,7 +61,7 @@ class Task
 
     public function getNextStatus($action)
     {
-        if (in_array($action, self::STATUS_MAP)) {
+        if (array_key_exists($action, self::STATUS_MAP)) {
             return self::STATUS_MAP[$action];
         }
     }

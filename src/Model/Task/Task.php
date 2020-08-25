@@ -3,6 +3,10 @@
 
 namespace TaskForce\Model\Task;
 
+use TaskForce\Actions\CancelAction;
+use TaskForce\Actions\DoneAction;
+use TaskForce\Actions\FailAction;
+use TaskForce\Actions\ReplyAction;
 
 class Task
 {
@@ -15,11 +19,6 @@ class Task
     const STATUS_DONE = 'done';
     const STATUS_FAIL = 'fail';
 
-    const ACTION_DONE = 'done';
-    const ACTION_CANCEL = 'cancel';
-    const ACTION_FAIL = 'fail';
-    const ACTION_REPLY = 'reply';
-
     const STATUS_NAME = [
         self::STATUS_NEW => 'Новое',
         self::STATUS_CANCEL => 'Отменено',
@@ -28,39 +27,25 @@ class Task
         self::STATUS_FAIL => 'Провалено',
     ];
 
-    const ACTION_NAME = [
-        self::ACTION_REPLY => 'Откликнуться',
-        self::ACTION_CANCEL => 'Отменить',
-        self::ACTION_DONE => 'Выполнено',
-        self::ACTION_FAIL => 'Отказаться',
-    ];
-
     const STATUS_MAP = [
-        self::ACTION_REPLY => self::STATUS_WORK,
-        self::ACTION_CANCEL => self::STATUS_CANCEL,
-        self::ACTION_DONE => self::STATUS_DONE,
-        self::ACTION_FAIL => self::STATUS_FAIL,
-    ];
-
-    const TASK_ROLE_MAP = [
-        self::ROLE_CUSTOMER => 'Создатель',
-        self::ROLE_DEVELOPER => 'Исполнитель'
+        ReplyAction::class => self::STATUS_WORK,
+        CancelAction::class => self::STATUS_CANCEL,
+        DoneAction::class => self::STATUS_DONE,
+        FailAction::class => self::STATUS_FAIL,
     ];
 
     const ACTION_MAP = [
-        self::ROLE_CUSTOMER => [
-            self::STATUS_NEW => [self::ACTION_CANCEL],
-            self::STATUS_CANCEL => null,
-            self::STATUS_WORK => [self::ACTION_DONE],
-            self::STATUS_FAIL => null
+        self::STATUS_NEW => [
+            self::ROLE_DEVELOPER => ReplyAction::class,
+            self::ROLE_CUSTOMER => CancelAction::class
         ],
-        self::ROLE_DEVELOPER => [
-            self::STATUS_NEW => [self::ACTION_REPLY],
-            self::STATUS_CANCEL => null,
-            self::STATUS_WORK => [self::ACTION_FAIL],
-            self::STATUS_DONE => null,
-            self::STATUS_FAIL => null,
-        ]
+        self::STATUS_WORK => [
+            self::ROLE_CUSTOMER => DoneAction::class,
+            self::ROLE_DEVELOPER => FailAction::class
+        ],
+        self::STATUS_CANCEL => null,
+        self::STATUS_DONE => null,
+        self::STATUS_FAIL => null,
 
     ];
 
@@ -76,33 +61,39 @@ class Task
 
     public function getNextStatus($action)
     {
-        if (in_array($action, self::STATUS_MAP)) {
+        if (array_key_exists($action, self::STATUS_MAP)) {
             return self::STATUS_MAP[$action];
         }
     }
 
-    public function getActions($status, $id)
+    public function getUserStatus($id)
     {
-        if ($id == $this->customer_id) {
-            return self::ACTION_MAP[self::ROLE_CUSTOMER];
+        if ($id === $this->developer_id) {
+            return self::ROLE_DEVELOPER;
         }
-        return self::ACTION_MAP[self::ROLE_DEVELOPER];
-    }
-
-    public function getStatusMap()
-    {
-        return self::ACTION_NAME;
-    }
-
-    public function getActionMap()
-    {
-        return self::STATUS_NAME;
-    }
-
-    public function setStatus($status)
-    {
-        if (isset(self::STATUS_NAME[$status])) {
-            $this->status = $status;
+        if ($id === $this->customer_id) {
+            return self::ROLE_CUSTOMER;
         }
+
+        return null;
     }
+
+    public function getAvailableActions($id)
+    {
+        $next_actions = self::ACTION_MAP[$this->status];
+        if (!$next_actions) {
+            return null;
+        }
+
+        $available_actions = [];
+        foreach ($next_actions as $next_action){
+            $action = new $next_action();
+            if($action->isAllowed($this->customer_id, $this->developer_id, $id)) {
+                $available_actions[] = $action;
+            }
+        }
+
+        return $available_actions;
+    }
+
 }

@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace TaskForce\Model\Task;
 
@@ -7,6 +7,7 @@ use TaskForce\Actions\CancelAction;
 use TaskForce\Actions\DoneAction;
 use TaskForce\Actions\FailAction;
 use TaskForce\Actions\ReplyAction;
+use TaskForce\Exceptions\TaskException;
 
 class Task
 {
@@ -53,20 +54,26 @@ class Task
     private $developer_id;
     public $status;
 
-    public function __construct($customer_id, $developer_id)
+    public function __construct(int $customer_id, int $developer_id, string $status)
     {
+        if (!in_array($status, self::STATUS_MAP)) {
+            throw new TaskException(`Нет такого статуса`);
+        }
+
+        $this->status = $status;
+
         $this->customer_id = $customer_id;
         $this->developer_id = $developer_id;
     }
 
-    public function getNextStatus($action)
+    public function getNextStatus($action):string
     {
         if (array_key_exists($action, self::STATUS_MAP)) {
             return self::STATUS_MAP[$action];
         }
     }
 
-    public function getUserStatus($id)
+    public function getUserStatus(int $id):?string
     {
         if ($id === $this->developer_id) {
             return self::ROLE_DEVELOPER;
@@ -78,11 +85,11 @@ class Task
         return null;
     }
 
-    public function getAvailableActions($id)
+    public function getAvailableActions(int $id):array
     {
         $next_actions = self::ACTION_MAP[$this->status];
         if (!$next_actions) {
-            return null;
+            throw new TaskException('Нет доступных действий по этому статусу');
         }
 
         $available_actions = [];

@@ -6,7 +6,7 @@ use TaskForce\Model\Task\Task;
 use TaskForce\Actions\CancelAction;
 
 
-$task = new Task(1, 2);
+$task = new Task(1, 2, 'work');
 
 assert($task->getUserStatus(1) === Task::ROLE_CUSTOMER);
 assert($task->getNextStatus(CancelAction::class) === Task::STATUS_CANCEL);

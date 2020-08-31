@@ -6,18 +6,18 @@ namespace TaskForce\Actions;
 
 class DoneAction extends AbstractAction
 {
-    public function isAllowed($customer_id, $developer_id, $user_id)
+    public function isAllowed(int $customer_id, int $developer_id, int $user_id):bool
     {
         return $customer_id === $user_id;
     }
 
-    public function getName()
+    public function getName():string
     {
         return 'Выполнено';
     }
 
-    public function getSlugName()
+    public function getSlugName():string
     {
-        return 'dome';
+        return 'done';
     }
 }

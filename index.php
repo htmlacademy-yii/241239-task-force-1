@@ -1,9 +1,14 @@
 <?php
 
-include_once '../../../vendor/autoload.php';
+include_once 'vendor/autoload.php';
 
 use TaskForce\Model\Task\Task;
 use TaskForce\Actions\CancelAction;
+use TaskForce\Utils\DataLoader;
+
+$data_converter = new DataLoader();
+$data_converter->scanDirectory('./data');
+$data_converter->toSql();
 
 
 $task = new Task(1, 2, 'work');

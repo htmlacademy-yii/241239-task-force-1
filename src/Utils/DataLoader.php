@@ -2,8 +2,6 @@
 
 namespace TaskForce\Utils;
 
-use TaskForce\Exceptions\DataLoaderException;
-
 class DataLoader extends Data
 {
     private $fileArray = [];

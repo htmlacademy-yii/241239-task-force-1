@@ -10,6 +10,7 @@ class DataLoader extends Data
         $iterator = new \DirectoryIterator($path);
 
 
+
         while($iterator->valid()) {
             $file = $iterator->current();
             if ($file != "." && $file != "..") {

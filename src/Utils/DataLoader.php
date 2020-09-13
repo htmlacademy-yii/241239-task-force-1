@@ -9,6 +9,8 @@ class DataLoader extends Data
     public function scanDirectory($path):array {
         $iterator = new \DirectoryIterator($path);
 
+
+
         while($iterator->valid()) {
             $file = $iterator->current();
             if ($file != "." && $file != "..") {

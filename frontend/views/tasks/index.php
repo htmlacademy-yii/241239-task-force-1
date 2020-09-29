@@ -13,7 +13,7 @@
                                 <?= isset($task->description) ? $task->description : "" ?>
                             </p>
                             <b class="new-task__price new-task__price--<?= isset($task->icon) ? $task->icon : "" ?>"><?= isset($task->price) ? $task->price : "" ?><b> ₽</b></b>
-                            <p class="new-task__place">Санкт-Петербург, Центральный район</p>
+                            <p class="new-task__place"><?= $task->city->city ?></p>
                             <span class="new-task__time">4 часа назад</span>
                         </div>
                     <?php endforeach; ?>

@@ -94,6 +94,16 @@ class Task extends \yii\db\ActiveRecord
     }
 
     /**
+     * Gets query for [[Status]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStatus()
+    {
+        return $this->hasMany(Status::className(), ['id' => 'status_id']);
+    }
+
+    /**
      * Gets query for [[Messages]].
      *
      * @return \yii\db\ActiveQuery

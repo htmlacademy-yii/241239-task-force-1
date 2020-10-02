@@ -4,6 +4,7 @@
 namespace frontend\controllers;
 
 
+use frontend\models\Status;
 use frontend\models\Task;
 use yii\db\Query;
 use yii\web\Controller;
@@ -12,7 +13,7 @@ class TasksController extends Controller
 {
     public function actionIndex()
     {
-        $tasks = Task::find()->where(['status' => 'Новое'])->all();
+        $tasks = Task::find()->where(['status_id' => 1])->all();
 
         return $this->render('index', [
             'tasks' => $tasks

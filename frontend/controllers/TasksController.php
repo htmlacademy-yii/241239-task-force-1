@@ -13,8 +13,7 @@ class TasksController extends Controller
 {
     public function actionIndex()
     {
-        $tasks = Task::find()->where(['status_id' => 1])->all();
-
+        $tasks = Task::find()->where(['status_id' => Status::STATUS_NEW])->all();
         return $this->render('index', [
             'tasks' => $tasks
         ]);

@@ -5,16 +5,22 @@
                     <?php foreach ($tasks as $task):?>
                         <div class="new-task__card">
                             <div class="new-task__title">
-                                <a href="#" class="link-regular"><h2><?= isset($task->name) ? $task->name : "" ?></h2></a>
-                                <a  class="new-task__type link-regular" href="#"><p><?= isset($task->cat_name) ? $task->cat_name : "" ?></p></a>
+                                <a href="#" class="link-regular"><h2><?= $task->name ?></h2></a>
+                                <a  class="new-task__type link-regular" href="#"><p><?= $task->category->name ?></p></a>
                             </div>
-                            <div class="new-task__icon new-task__icon--<?= isset($task->category->icon) ? $task->category->icon : "" ?>"></div>
+                            <div class="new-task__icon new-task__icon--<?= $task->category->icon ?>"></div>
                             <p class="new-task_description">
                                 <?= isset($task->description) ? $task->description : "" ?>
                             </p>
-                            <b class="new-task__price new-task__price--<?= isset($task->icon) ? $task->icon : "" ?>"><?= isset($task->price) ? $task->price : "" ?><b> ₽</b></b>
+                            <b class="new-task__price new-task__price--<?= $task->category->icon ?>"><?= $task->price ?><b> ₽</b></b>
                             <p class="new-task__place"><?= $task->city->city ?></p>
-                            <span class="new-task__time">4 часа назад</span>
+                            <span class="new-task__time">4 часа назад <?php
+
+                                $datetime1 = new DateTime("now");
+                                $datetime2 = new DateTime($task->created_at);
+                                $interval = $datetime1->diff($datetime2);
+                                echo $interval->format('%M месяца, %D дней') . ' назад';
+                                ?></span>
                         </div>
                     <?php endforeach; ?>
                 </div>

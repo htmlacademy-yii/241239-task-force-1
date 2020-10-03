@@ -29,9 +29,9 @@
                         <span class="<?=$rating_class?>"></span>
                     <?php endfor; ?>
 <!--                    <span></span><span></span><span></span><span></span><span class="star-disabled"></span>-->
-                    <b><?= $user->userInfos->rating ?></b>
+                    <b><?= strip_tags($user->userInfos->rating); ?></b>
                     <p class="user__search-content">
-                        <?= $user->userInfos->bio ?>
+                        <?= strip_tags($user->userInfos->bio); ?>
                     </p>
                 </div>
                 <span class="new-task__time">Был на сайте <?php echo Yii::$app->formatter->asRelativeTime($user->userInfos->edited_at, new DateTime("now")); ?></span>

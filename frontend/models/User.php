@@ -30,6 +30,9 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord
 {
+    const DEVELOPER_ROLE = 2;
+    const CUSTOMER_ROLE = 1;
+
     /**
      * {@inheritdoc}
      */
@@ -184,7 +187,7 @@ class User extends \yii\db\ActiveRecord
      */
     public function getUserInfos()
     {
-        return $this->hasMany(UserInfo::className(), ['user_id' => 'id']);
+        return $this->hasOne(UserInfo::className(), ['user_id' => 'id']);
     }
 
     /**

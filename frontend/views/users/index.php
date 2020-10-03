@@ -19,29 +19,27 @@
             <div class="feedback-card__top">
                 <div class="user__search-icon">
                     <a href="#"><img src="img/man-glasses.jpg" width="65" height="65"></a>
-                    <span>17 заданий</span>
-                    <span>6 отзывов</span>
+                    <span><?= count($user->tasks0); ?> заданий</span>
+                    <span><?= count($user->reviews); ?> отзывов</span>
                 </div>
                 <div class="feedback-card__top--name user__search-card">
-                    <p class="link-name"><a href="#" class="link-regular"><?=$user->name . ' ' . $user->surname ?></a></p>
+                    <p class="link-name"><a href="#" class="link-regular"><?=$user->userInfos->name . ' ' . $user->userInfos->surname ?></a></p>
                     <?php for ($i = 0; $i < 5; $i++): ?>
-                        <?php $rating_class = $user->rating >= $i+1 ? '' : 'star-disabled'; ?>
+                        <?php $rating_class = $user->userInfos->rating >= $i+1 ? '' : 'star-disabled'; ?>
                         <span class="<?=$rating_class?>"></span>
                     <?php endfor; ?>
 <!--                    <span></span><span></span><span></span><span></span><span class="star-disabled"></span>-->
-                    <b><?= $user->rating ?></b>
+                    <b><?= $user->userInfos->rating ?></b>
                     <p class="user__search-content">
-                        Сложно сказать, почему элементы политического процесса лишь
-                        добавляют фракционных разногласий и рассмотрены исключительно
-                        в разрезе маркетинговых и финансовых предпосылок.
+                        <?= $user->userInfos->bio ?>
                     </p>
                 </div>
-                <span class="new-task__time">Был на сайте 25 минут назад</span>
+                <span class="new-task__time">Был на сайте <?php echo Yii::$app->formatter->asRelativeTime($user->userInfos->edited_at, new DateTime("now")); ?></span>
             </div>
             <div class="link-specialization user__search-link--bottom">
-                <a href="#" class="link-regular">Ремонт</a>
-                <a href="#" class="link-regular">Курьер</a>
-                <a href="#" class="link-regular">Оператор ПК</a>
+                <?php foreach ($user->userInfos->userCategories as $category): ?>
+                    <a href="#" class="link-regular"><?php echo $category->category->name ?></a>
+                <?php endforeach; ?>
             </div>
         </div>
     <?php endforeach; ?>

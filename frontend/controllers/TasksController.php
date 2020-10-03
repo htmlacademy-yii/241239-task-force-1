@@ -6,7 +6,6 @@ namespace frontend\controllers;
 
 use frontend\models\Status;
 use frontend\models\Task;
-use yii\db\Query;
 use yii\web\Controller;
 
 class TasksController extends Controller

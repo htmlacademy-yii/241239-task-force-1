@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\db\Query;
 
 /**
  * This is the model class for table "user".
@@ -165,7 +166,7 @@ class User extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getTasks0()
+    public function getTasksExecutor()
     {
         return $this->hasMany(Task::className(), ['executor_id' => 'id']);
     }
@@ -208,5 +209,18 @@ class User extends \yii\db\ActiveRecord
     public function getUserVisits0()
     {
         return $this->hasMany(UserVisit::className(), ['user_guest_id' => 'id']);
+    }
+
+    public function getCountTasks() {
+        return $this->getTasksExecutor()->count();
+    }
+
+    public function getUserReviews() {
+        return $this->getReviews()->count();
+    }
+
+    public function getUserCategory() {
+        return $this->hasMany(Categories::className(), ['id' => 'category_id'])
+                    ->viaTable('user_category', ['user_id' => 'id']);
     }
 }

@@ -6,14 +6,14 @@
                         <div class="new-task__card">
                             <div class="new-task__title">
                                 <a href="#" class="link-regular"><h2><?= strip_tags($task->name); ?></h2></a>
-                                <a  class="new-task__type link-regular" href="#"><p><?= strip_tags($task->category->name); ?></p></a>
+                                <a  class="new-task__type link-regular" href="#"><p><?= $task->category->name; ?></p></a>
                             </div>
-                            <div class="new-task__icon new-task__icon--<?= strip_tags($task->category->icon); ?>"></div>
+                            <div class="new-task__icon new-task__icon--<?= $task->category->icon; ?>"></div>
                             <p class="new-task_description">
                                 <?= strip_tags($task->description); ?>
                             </p>
-                            <b class="new-task__price new-task__price--<?= strip_tags($task->category->icon); ?>"><?= strip_tags($task->price); ?><b> ₽</b></b>
-                            <p class="new-task__place"><?= strip_tags($task->city->city); ?></p>
+                            <b class="new-task__price new-task__price--<?= $task->category->icon; ?>"><?= strip_tags($task->price); ?><b> ₽</b></b>
+                            <p class="new-task__place"><?= $task->city->city; ?></p>
                             <span class="new-task__time">
                                 <?php echo Yii::$app->formatter->asRelativeTime($task->created_at, new DateTime("now")); ?>
                             </span>

@@ -12,8 +12,9 @@ class m201003_152455_two extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('user_info', 'bio', $this->text()->defaultValue('Some bio text'));
-
+        $this->addColumn('user_info', 'bio', $this->text());
+        $this->update('user_info', ['bio' => 'Some Bioc Text']);
+        $this->alterColumn('task', 'city_id', $this->integer()->null());
     }
 
     /**

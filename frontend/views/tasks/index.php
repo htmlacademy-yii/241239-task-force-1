@@ -52,46 +52,27 @@ use yii\helpers\Html;
                         <legend>Категории</legend>
                         <?= $form->field($model, 'categories')
                             ->checkboxList(
-                                Categories::find()->select(['name', 'id'])->indexBy('id')->column(),
-                                ['itemOptions' => ['class' => 'checkbox__input']])
-                            ->label(false
-                            );
+                                Categories::find()->select(['name', 'id'])->indexBy('id')->column())
+                            ->label(false);
 
                         ?>
                     </fieldset>
                     <fieldset class="search-task__categories">
                         <legend>Дополнительно</legend>
-                        <?= $form->field($model, 'no_response',
-                            ['template' => '{input}{label}', 'options' => ['tag' => false]]
-                        )
-                            ->checkbox(['class' => 'visually-hidden checkbox__input'], false);
+                        <?= $form->field($model, 'no_response', ['options' => ['tag' => false]])->checkbox();
                         ?>
 
-                        <?= $form->field($model, 'remote',
-                            ['template' => '{input}{label}', 'options' => ['tag' => false]]
-                        )
-                            ->checkbox(['class' => 'visually-hidden checkbox__input'], false);
+                        <?= $form->field($model, 'remote', ['options' => ['tag' => false]])->checkbox();
                         ?>
                     </fieldset>
 
 
                     <?= $form->field($model, 'period', [
-                        'template' => '{label}{input}',
                         'options' => ['class' => 'custom', 'tag' => false],
                         'labelOptions' => ['class' => 'search-task__name']
-                    ])
-                        ->dropDownList($model->attributeLabelsPeriod(),
-                            [
-                                'class' => 'multiple-select input',
-                                'options' => [
-                                    'week' => [
-                                        'Selected' => true
-                                    ]
-                                ]
-                            ]); ?>
+                    ])->dropDownList($model->attributeLabelsPeriod(), ['class' => 'multiple-select input']); ?>
 
                     <?= $form->field($model, 'search', [
-                        'template' => '{label}{input}',
                         'options' => [
                             'class' => 'custom',
                             'tag' => false

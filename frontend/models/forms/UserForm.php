@@ -25,12 +25,35 @@ class UserForm extends Model
     public function attributeLabels()
     {
         return [
-            'categories' => '',
             'online' => 'Сейчас онлайн',
             'free' => 'Сейчас свободен',
             'reviews' => 'Есть отзывы',
             'in_favorite' => 'В избранном',
             'search' => 'Поиск по имени'
         ];
+    }
+
+    public function getMoreAttribute() {
+        return [
+            'online' => 'Сейчас онлайн',
+            'free' => 'Сейчас свободен',
+            'reviews' => 'Есть отзывы',
+            'in_favorite' => 'В избранном',
+        ];
+    }
+
+    public function applyFilters($userQuery) {
+        if (!empty($this->categories)) {
+            $userQuery->joinWith(['userCategories'])
+                ->where(['category_id' => 2]);
+        }
+
+        if ($this->online) {
+
+        }
+
+        if ($this->search) {
+            $userQuery->andWhere(['like', 'name', $this->search]);
+        }
     }
 }

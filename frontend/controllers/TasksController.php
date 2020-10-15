@@ -14,9 +14,13 @@ class TasksController extends Controller
     public function actionIndex()
     {
         $model = new TaskForm();
-        $tasks = Task::find()->where(['status_id' => Status::STATUS_NEW])->all();
+        $tasks = Task::find();
+        if (\Yii::$app->request->isGet) {
+            $model->load(\Yii::$app->request->get());
+            $model->applyFilters($tasks);
+        }
         return $this->render('index', [
-            'tasks' => $tasks,
+            'tasks' => $tasks->andWhere(['status_id' => Status::STATUS_NEW])->all(),
             'model' => $model
         ]);
     }

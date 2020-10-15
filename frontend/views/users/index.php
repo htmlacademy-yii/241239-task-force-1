@@ -50,6 +50,7 @@ use yii\helpers\Html;
 <section  class="search-task">
     <div class="search-task__wrapper">
         <?php $form = ActiveForm::begin([
+            'method' => 'get',
             'options' => ['name' => 'users', 'class' => 'search-task__form']
         ]);?>
         <fieldset class="search-task__categories">

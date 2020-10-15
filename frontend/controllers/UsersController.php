@@ -14,16 +14,16 @@ class UsersController extends Controller
 {
     public function actionIndex()
     {
-          $users = User::find()->joinWith('userInfos')->where(['role_id' => User::DEVELOPER_ROLE]);
+          $users = User::find();
           $model = new UserForm();
 
-          if (\Yii::$app->request->isPost) {
-              $model->load(\Yii::$app->request->post());
+          if (\Yii::$app->request->isGet) {
+              $model->load(\Yii::$app->request->get());
               $model->applyFilters($users);
           }
 
         return $this->render('index', [
-            'users' => $users->all(),
+            'users' => $users->joinWith('userInfos')->andWhere(['role_id' => User::DEVELOPER_ROLE])->all(),
             'model' => $model
         ]);
     }

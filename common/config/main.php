@@ -11,6 +11,11 @@ return [
         ],
         'customHelper' => [
             'class' => 'common\helpers\CustomHelper'
-        ]
+        ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'enableStrictParsing' => false,
+        ],
     ],
 ];

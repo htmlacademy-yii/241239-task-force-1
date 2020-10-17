@@ -27,4 +27,9 @@ class UsersController extends Controller
             'model' => $model
         ]);
     }
+
+    public function actionShow($id)
+    {
+        return $this->render('show');
+    }
 }

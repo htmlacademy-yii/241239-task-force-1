@@ -78,4 +78,9 @@ class Response extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Task::className(), ['id' => 'task_id']);
     }
+
+    public function getUserInfo()
+    {
+        return $this->hasOne(UserInfo::className(), ['user_id' => 'user_id']);
+    }
 }

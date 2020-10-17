@@ -24,4 +24,12 @@ class TasksController extends Controller
             'model' => $model
         ]);
     }
+
+    public function actionShow($id)
+    {
+        $task = Task::find()->where(['id' => $id])->one();
+        return $this->render('show', [
+            'task' => $task
+        ]);
+    }
 }

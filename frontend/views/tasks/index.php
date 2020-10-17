@@ -3,6 +3,7 @@
 use frontend\models\Categories;
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\Url;
 ?>
 
 <section class="new-task">
@@ -12,7 +13,7 @@ use yii\helpers\Html;
                     <?php foreach ($tasks as $task):?>
                         <div class="new-task__card">
                             <div class="new-task__title">
-                                <a href="/tasks/<?=$task->id?>" class="link-regular"><h2><?= strip_tags($task->name); ?></h2></a>
+                                <a href="<?=Url::to(['/tasks/' . $task->id])?>" class="link-regular"><h2><?= strip_tags($task->name); ?></h2></a>
                                 <a  class="new-task__type link-regular" href="#"><p><?= $task->category->name; ?></p></a>
                             </div>
                             <div class="new-task__icon new-task__icon--<?= $task->category->icon; ?>"></div>

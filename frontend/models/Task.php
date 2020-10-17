@@ -160,6 +160,11 @@ class Task extends \yii\db\ActiveRecord
      */
     public function getAuthor()
     {
+        return $this->hasOne(UserInfo::className(), ['id' => 'author_id']);
+    }
+
+    public function getAuthorInfo()
+    {
         return $this->hasOne(User::className(), ['id' => 'author_id']);
     }
 
@@ -181,5 +186,10 @@ class Task extends \yii\db\ActiveRecord
     public function getCity()
     {
         return $this->hasOne(Cities::className(), ['id' => 'city_id']);
+    }
+
+    public function getResponsesCount()
+    {
+        return $this->getResponses()->count();
     }
 }

@@ -161,6 +161,12 @@ class User extends \yii\db\ActiveRecord
         return $this->hasMany(Task::className(), ['author_id' => 'id']);
     }
 
+
+    public function getTasksCount()
+    {
+        return $this->getTasks()->count();
+    }
+
     /**
      * Gets query for [[Tasks0]].
      *

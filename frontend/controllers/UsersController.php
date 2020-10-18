@@ -30,6 +30,9 @@ class UsersController extends Controller
 
     public function actionShow($id)
     {
-        return $this->render('show');
+        $user = UserInfo::findOne($id);
+        return $this->render('show', [
+            'user' => $user
+        ]);
     }
 }

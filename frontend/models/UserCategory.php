@@ -68,4 +68,6 @@ class UserCategory extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Categories::className(), ['id' => 'category_id']);
     }
+
+
 }

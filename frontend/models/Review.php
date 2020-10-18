@@ -69,6 +69,11 @@ class Review extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
+    public function getUserInfo()
+    {
+        return $this->hasOne(UserInfo::className(), ['user_id' => 'user_id']);
+    }
+
     /**
      * Gets query for [[Task]].
      *

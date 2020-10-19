@@ -16,6 +16,10 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableStrictParsing' => false,
+            'rules' => [
+                'tasks/<id:\d+>' => 'tasks/show',
+                'users/<id:\d+>' => 'users/show'
+            ]
         ],
     ],
 ];

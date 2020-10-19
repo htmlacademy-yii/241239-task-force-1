@@ -19,6 +19,7 @@ use Yii;
  * @property string $phone
  * @property string $telegram
  * @property string $skype
+ * @property string $bio
  *
  * @property UserCategory[] $userCategories
  * @property User $user
@@ -89,7 +90,7 @@ class UserInfo extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasMany(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**
@@ -100,5 +101,28 @@ class UserInfo extends \yii\db\ActiveRecord
     public function getCity()
     {
         return $this->hasOne(Cities::className(), ['id' => 'city_id']);
+    }
+
+    public function getTaskExecutorCount()
+    {
+        return $this->hasMany(Task::className(), ['executor_id' => 'user_id'])->count();
+    }
+
+    public function getReviews() {
+        return $this->hasMany(Review::className(), ['user_id' => 'user_id']);
+    }
+
+    public function getReviewsCount() {
+        return $this->getReviews()->count();
+    }
+
+    public function getUserCategory() {
+        return $this->hasMany(Categories::className(), ['id' => 'category_id'])
+            ->viaTable('user_category', ['user_id' => 'user_id']);
+    }
+
+    public function getPhotos()
+    {
+        return $this->hasMany(PortfolioPhoto::className(), ['user_id' => 'user_id']);
     }
 }

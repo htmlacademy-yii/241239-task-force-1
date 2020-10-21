@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Url;
+use yii\helpers\Html;
 ?>
 
 <section class="content-view">
@@ -7,7 +8,7 @@ use yii\helpers\Url;
         <div class="content-view__card-wrapper">
             <div class="content-view__header">
                 <div class="content-view__headline">
-                    <h1><?=strip_tags($task->name);?></h1>
+                    <h1><?= Html::encode($task->name);?></h1>
                     <span>Размещено в категории
                                     <a href="#" class="link-regular"><?= $task->category->name ?></a>
                                     <?php echo Yii::$app->formatter->asRelativeTime($task->created_at, new DateTime("now")); ?></span>
@@ -18,13 +19,13 @@ use yii\helpers\Url;
             <div class="content-view__description">
                 <h3 class="content-view__h3">Общее описание</h3>
                 <p>
-                    <?= strip_tags($task->description); ?>
+                    <?= Html::encode($task->description); ?>
                 </p>
             </div>
             <div class="content-view__attach">
                 <h3 class="content-view__h3">Вложения</h3>
                 <?php foreach ($task->attachments as $item):?>
-                    <a href="<?= Url::to($item->url); ?>" class="link-regular"><?= isset($item->name) ? strip_tags($item->name) : 'Без имени';?></a>
+                    <a href="<?= Url::to($item->url); ?>" class="link-regular"><?= isset($item->name) ? Html::encode($item->name) : 'Без имени';?></a>
                 <?php endforeach; ?>
             </div>
             <div class="content-view__location">
@@ -59,7 +60,7 @@ use yii\helpers\Url;
                     <div class="feedback-card__top">
                         <a href="#"><img src="/img/man-glasses.jpg" width="55" height="55"></a>
                         <div class="feedback-card__top--name">
-                            <p><a href="#" class="link-regular"><?= strip_tags($response->userInfo->name); ?> <?= strip_tags($response->userInfo->surname); ?></a></p>
+                            <p><a href="#" class="link-regular"><?= Html::encode($response->userInfo->name); ?> <?= Html::encode($response->userInfo->surname); ?></a></p>
                             <span></span><span></span><span></span><span></span><span class="star-disabled"></span>
                             <b>4.25</b>
                         </div>
@@ -67,9 +68,9 @@ use yii\helpers\Url;
                     </div>
                     <div class="feedback-card__content">
                         <p>
-                            <?= strip_tags($response->comment); ?>
+                            <?= Html::encode($response->comment); ?>
                         </p>
-                        <span><?= strip_tags($response->price); ?> ₽</span>
+                        <span><?= Html::encode($response->price); ?> ₽</span>
                     </div>
                     <div class="feedback-card__actions">
                         <a class="button__small-color request-button button"

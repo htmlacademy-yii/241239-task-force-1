@@ -29,14 +29,14 @@ class UsersController extends Controller
         ]);
     }
 
-    public function actionShow($id)
+    public function actionView($id)
     {
         $user = UserInfo::findOne($id);
         if (empty($user)) {
             throw new NotFoundHttpException("Пользователя не существует");
         }
 
-        return $this->render('show', [
+        return $this->render('view', [
             'user' => $user
         ]);
     }

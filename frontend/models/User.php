@@ -48,7 +48,7 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['email', 'password', 'city_id'], 'required'],
+            [['email', 'password', 'city_id', 'name'], 'required'],
             [['city_id'], 'integer'],
             [['created_at'], 'safe'],
             [['email', 'password'], 'string', 'max' => 255],
@@ -64,9 +64,10 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'email' => 'Email',
-            'password' => 'Password',
-            'city_id' => 'City ID',
+            'email' => 'Электронная почта',
+            'name' => 'Ваше имя',
+            'password' => 'Пароль',
+            'city_id' => 'Город проживания',
             'created_at' => 'Created At',
         ];
     }
@@ -232,5 +233,10 @@ class User extends \yii\db\ActiveRecord
 
     public function getUserCategories() {
         return $this->hasMany(UserCategory::className(), ['user_id' => 'id']);
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = Yii::$app->security->generatePasswordHash($this->password);
     }
 }

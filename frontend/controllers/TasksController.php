@@ -25,14 +25,13 @@ class TasksController extends Controller
         ]);
     }
 
-    public function actionShow($id)
+    public function actionView($id)
     {
         $task = Task::findOne($id);
-
         if (empty($task)) {
             throw new NotFoundHttpException("Задание с № $id не найдено");
         }
-        return $this->render('show', [
+        return $this->render('view', [
             'task' => $task
         ]);
     }

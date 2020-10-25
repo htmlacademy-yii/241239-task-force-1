@@ -4,7 +4,7 @@
 namespace frontend\controllers;
 
 
-use frontend\models\User;
+use frontend\models\forms\SignUpForm;
 use Yii;
 use yii\web\Controller;
 
@@ -12,15 +12,13 @@ class SignUpController extends Controller
 {
     public function actionIndex()
     {
-        $model = new User();
-        $model->load(\Yii::$app->request->post());
-
+        $model = new SignUpForm();
+        $model->load(Yii::$app->request->post());
 
         if (Yii::$app->request->post()) {
-
             if ($model->validate()) {
-                $model->setPassword($model->password);
-                return $model->save() && $this->goHome();
+                $model->registerUser();
+                return $this->goHome();
             }
         }
 

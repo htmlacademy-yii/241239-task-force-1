@@ -41,14 +41,7 @@ class UserInfo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'name', 'surname', 'city_id', 'date_birth', 'role_id', 'phone', 'telegram', 'skype'], 'required'],
-            [['user_id', 'city_id', 'role_id'], 'integer'],
-            [['edited_at', 'date_birth'], 'safe'],
-            [['rating'], 'number'],
-            [['name', 'surname', 'telegram', 'skype'], 'string', 'max' => 255],
-            [['phone'], 'string', 'max' => 11],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
-            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
+            [['user_id', 'name', 'surname', 'city_id', 'date_birth', 'role_id', 'phone', 'telegram', 'skype'], 'safe'],
         ];
     }
 

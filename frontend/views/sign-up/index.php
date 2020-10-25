@@ -32,9 +32,7 @@ $config = [
                 ?>
                 <span>Введите валидный адрес электронной почты</span>
                 <?= $formSignUp->field($model, 'name', [
-                    'options' => [
-                        'class' => 'custom',
-                    ]
+                    'options' => ['class' => 'custom']
                 ])->textInput([
                     'class' => 'input textarea',
                     'placeholder' => 'Мамедов Кумар'

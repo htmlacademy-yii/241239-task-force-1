@@ -24,6 +24,15 @@ class LoginForm extends Model
         ];
     }
 
+
+    public function attributeLabels()
+    {
+        return [
+            'email' => 'Email',
+            'password' => 'Пароль'
+        ];
+    }
+
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {

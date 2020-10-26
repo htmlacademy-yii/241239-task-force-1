@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 
 ?>
@@ -265,19 +266,28 @@ use yii\helpers\Html;
             </div>
         </div>
     </footer>
+
     <section class="modal enter-form form-modal" id="enter-form">
         <h2>Вход на сайт</h2>
+        <?php $form = ActiveForm::begin(); ?>
         <form action="#" method="post">
             <p>
-                <label class="form-modal-description" for="enter-email">Email</label>
-                <input class="enter-form-email input input-middle" type="email" name="enter-email" id="enter-email">
+                <?= $form->field($model, 'email', [
+                    'options' => ['tag' => false],
+                    'labelOptions' => ['class' => 'form-modal-description'],
+                    'inputOptions' => ['class' => 'enter-form-email input input-middle']
+                ]); ?>
             </p>
             <p>
-                <label class="form-modal-description" for="enter-password">Пароль</label>
-                <input class="enter-form-email input input-middle" type="password" name="enter-email" id="enter-password">
+                <?= $form->field($model, 'password', [
+                    'options' => ['tag' => false],
+                    'labelOptions' => ['class' => 'form-modal-description'],
+                    'inputOptions' => ['class' => 'enter-form-email input input-middle']
+                ])->passwordInput(); ?>
             </p>
-            <button class="button" type="submit">Войти</button>
+            <?= Html::submitButton('Войти', ['class' => 'button']) ?>
         </form>
+        <?php ActiveForm::end(); ?>
         <button class="form-modal-close" type="button">Закрыть</button>
     </section>
 </div>

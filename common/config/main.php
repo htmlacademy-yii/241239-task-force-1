@@ -17,8 +17,7 @@ return [
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
-//                'tasks/view/<id:\d+>' => 'tasks/view',
-//                'users/view/<id:\d+>' => 'users/view'
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             ]
         ],
     ],

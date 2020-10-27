@@ -118,4 +118,6 @@ class UserInfo extends \yii\db\ActiveRecord
     {
         return $this->hasMany(PortfolioPhoto::className(), ['user_id' => 'user_id']);
     }
+
+
 }

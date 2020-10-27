@@ -196,6 +196,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->hasOne(UserInfo::className(), ['user_id' => 'id']);
     }
 
+
     /**
      * Gets query for [[UserVisits]].
      *
@@ -264,6 +265,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
 
     public function validateAuthKey($authKey)
     {
-        $this->getAuthKey() === $authKey;
+        // TODO: Implement getAuthKey() method.
     }
 }

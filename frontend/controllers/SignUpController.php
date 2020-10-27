@@ -12,6 +12,10 @@ class SignUpController extends Controller
 {
     public function actionIndex()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->redirect('/tasks');
+        }
+
         $model = new SignUpForm();
         $model->load(Yii::$app->request->post());
 

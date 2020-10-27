@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use yii\helpers\Url;
+use yii\widgets\Pjax;
 
 ?>
 
@@ -55,7 +56,7 @@ use yii\widgets\ActiveForm;
                 <a href="#" class="header__account-enter open-modal" data-for="enter-form">
                     <span>Вход</span></a>
                 или
-                <a href="signup.html" class="header__account-registration">
+                <a href="<?= Url::to('sign-up') ?>" class="header__account-registration">
                     Регистрация
                 </a>
             </div>
@@ -246,7 +247,7 @@ use yii\widgets\ActiveForm;
                         <a href="">Исполнители</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Регистрация</a>
+                        <a href="<?= Url::to('sign-up') ?>">Регистрация</a>
                     </li>
                     <li class="links__item">
                         <a href="">Создать задание</a>
@@ -269,7 +270,8 @@ use yii\widgets\ActiveForm;
 
     <section class="modal enter-form form-modal" id="enter-form">
         <h2>Вход на сайт</h2>
-        <?php $form = ActiveForm::begin(); ?>
+        <?php Pjax::begin() ?>
+        <?php $form = ActiveForm::begin(['options' => ['data' => ['pjax' => true]]]); ?>
         <form action="#" method="post">
             <p>
                 <?= $form->field($model, 'email', [
@@ -288,11 +290,12 @@ use yii\widgets\ActiveForm;
             <?= Html::submitButton('Войти', ['class' => 'button']) ?>
         </form>
         <?php ActiveForm::end(); ?>
+        <?php Pjax::end() ?>
         <button class="form-modal-close" type="button">Закрыть</button>
     </section>
 </div>
 <div class="overlay"></div>
-<script src="js/main.js"></script>
+<script src="/js/main.js"></script>
 <?php $this->endBody() ?>
 </body>
 </html>

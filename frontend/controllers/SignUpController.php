@@ -6,16 +6,13 @@ namespace frontend\controllers;
 
 use frontend\models\forms\SignUpForm;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 
 class SignUpController extends Controller
 {
     public function actionIndex()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->redirect('/tasks');
-        }
-
         $model = new SignUpForm();
         $model->load(Yii::$app->request->post());
 
@@ -29,6 +26,26 @@ class SignUpController extends Controller
         return $this->render('index', [
             'model' => $model
         ]);
+    }
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'denyCallback' => function ($rule, $action) {
+                    return $this->redirect('/tasks');
+                },
+                'rules' => [
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['?'],
+
+                    ],
+                ],
+            ]
+        ];
     }
 
 

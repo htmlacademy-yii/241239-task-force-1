@@ -80,6 +80,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->hasMany(FavoriteList::className(), ['user_selected_id' => 'id']);
     }
 
+
     /**
      * Gets query for [[FavoriteLists0]].
      *

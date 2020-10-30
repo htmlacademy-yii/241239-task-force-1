@@ -197,6 +197,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->hasOne(UserInfo::className(), ['user_id' => 'id']);
     }
 
+    public function getUserName()
+    {
+        return $this->userInfos->name;
+    }
+
 
     /**
      * Gets query for [[UserVisits]].

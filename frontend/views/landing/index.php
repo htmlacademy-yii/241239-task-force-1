@@ -229,14 +229,14 @@ use yii\widgets\Pjax;
         <?php $form = ActiveForm::begin(['enableAjaxValidation' => true, 'method' => 'post', 'action' => '/']); ?>
             <p>
                 <?= $form->field($model, 'email', [
-                    'options' => ['tag' => false],
+//                    'options' => ['tag' => false],
                     'labelOptions' => ['class' => 'form-modal-description'],
                     'inputOptions' => ['class' => 'enter-form-email input input-middle']
                 ]); ?>
             </p>
             <p>
                 <?= $form->field($model, 'password', [
-                    'options' => ['tag' => false],
+//                    'options' => ['tag' => false],
                     'labelOptions' => ['class' => 'form-modal-description'],
                     'inputOptions' => ['class' => 'enter-form-email input input-middle']
                 ])->passwordInput(); ?>

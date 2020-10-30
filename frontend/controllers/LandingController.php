@@ -8,6 +8,8 @@ use frontend\models\Task;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 class LandingController extends Controller
 {
@@ -16,6 +18,11 @@ class LandingController extends Controller
 
         $model = new LoginForm();
         $tasks = Task::find()->orderBy('created_at')->limit(4)->all();
+
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
 
         if (Yii::$app->request->isPost) {
             $model->load(Yii::$app->request->post());

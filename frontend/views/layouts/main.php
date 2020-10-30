@@ -9,6 +9,8 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use frontend\models\UserInfo;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -30,7 +32,7 @@ AppAsset::register($this);
 <header class="page-header">
     <div class="main-container page-header__container">
         <div class="page-header__logo">
-            <a href="index.html">
+            <a href="<?= Url::to('/') ?>">
                 <svg class="page-header__logo-image" id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1634 646.35">
                     <title>taskforce_logo2-01</title>
                     <g>
@@ -60,10 +62,10 @@ AppAsset::register($this);
             <div class="header__nav">
                 <ul class="header-nav__list site-list">
                     <li class="site-list__item site-list__item--active">
-                        <a href="/tasks">Задания</a>
+                        <a href="<?= Url::to('/tasks') ?>">Задания</a>
                     </li>
                     <li class="site-list__item">
-                        <a href="/users">Исполнители</a>
+                        <a href="<?= Url::to('/users') ?>">Исполнители</a>
                     </li>
                     <li class="site-list__item">
                         <a href="#">Создать задание</a>
@@ -73,7 +75,7 @@ AppAsset::register($this);
                     </li>
                 </ul>
             </div>
-        <?php if (Yii::$app->controller->id !== 'sign-up'):?>
+        <?php if (!Yii::$app->user->isGuest):?>
             <div class="header__town">
                 <select class="multiple-select input town-select" size="1" name="town[]">
                     <option value="Moscow">Москва</option>
@@ -106,7 +108,7 @@ AppAsset::register($this);
                          alt="Аватар пользователя">
                 </a>
                 <span class="header__account-name">
-                 Василий
+                    <?= Yii::$app->user->getIdentity()->getUserName(); ?>
              </span>
             </div>
             <div class="account__pop-up">
@@ -118,7 +120,7 @@ AppAsset::register($this);
                         <a href="#">Настройки</a>
                     </li>
                     <li>
-                        <a href="#">Выход</a>
+                        <a href="<?= Url::to('logout') ?>">Выход</a>
                     </li>
                 </ul>
             </div>
@@ -145,16 +147,16 @@ AppAsset::register($this);
         <div class="page-footer__links">
             <ul class="links__list">
                 <li class="links__item">
-                    <a href="">Задания</a>
+                    <a href="<?= Url::to('/tasks') ?>">Задания</a>
                 </li>
                 <li class="links__item">
-                    <a href="">Мой профиль</a>
+                    <a href="<?= Url::to('/profile') ?>">Мой профиль</a>
                 </li>
                 <li class="links__item">
-                    <a href="">Исполнители</a>
+                    <a href="<?= Url::to('/users') ?>">Исполнители</a>
                 </li>
                 <li class="links__item">
-                    <a href="">Регистрация</a>
+                    <a href="<?= Url::to('/sign-up') ?>">Регистрация</a>
                 </li>
                 <li class="links__item">
                     <a href="">Создать задание</a>

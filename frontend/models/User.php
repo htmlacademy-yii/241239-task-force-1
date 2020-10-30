@@ -3,7 +3,9 @@
 namespace frontend\models;
 
 use Yii;
+use yii\base\NotSupportedException;
 use yii\db\Query;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "user".
@@ -29,7 +31,7 @@ use yii\db\Query;
  * @property UserVisit[] $userVisits
  * @property UserVisit[] $userVisits0
  */
-class User extends \yii\db\ActiveRecord
+class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
     const DEVELOPER_ROLE = 2;
     const CUSTOMER_ROLE = 1;
@@ -67,6 +69,7 @@ class User extends \yii\db\ActiveRecord
         ];
     }
 
+
     /**
      * Gets query for [[FavoriteLists]].
      *
@@ -76,6 +79,7 @@ class User extends \yii\db\ActiveRecord
     {
         return $this->hasMany(FavoriteList::className(), ['user_selected_id' => 'id']);
     }
+
 
     /**
      * Gets query for [[FavoriteLists0]].
@@ -193,6 +197,12 @@ class User extends \yii\db\ActiveRecord
         return $this->hasOne(UserInfo::className(), ['user_id' => 'id']);
     }
 
+    public function getUserName()
+    {
+        return $this->userInfos->name;
+    }
+
+
     /**
      * Gets query for [[UserVisits]].
      *
@@ -230,4 +240,37 @@ class User extends \yii\db\ActiveRecord
         return $this->hasMany(UserCategory::className(), ['user_id' => 'id']);
     }
 
+    public static function findByEmail($email) {
+        return static::findOne(['email' => $email]);
+    }
+
+    public function validatePassword($password)
+    {
+        return Yii::$app->security->validatePassword($password, $this->password);
+    }
+
+    public static function findIdentity($id)
+    {
+        return static::findOne(['id' => $id]);
+    }
+
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+    }
+
+    public function getId()
+    {
+        return $this->getPrimaryKey();
+    }
+
+    public function getAuthKey()
+    {
+        // TODO: Implement getAuthKey() method.
+    }
+
+    public function validateAuthKey($authKey)
+    {
+        // TODO: Implement getAuthKey() method.
+    }
 }

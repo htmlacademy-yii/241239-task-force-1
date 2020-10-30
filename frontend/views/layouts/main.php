@@ -109,7 +109,6 @@ AppAsset::register($this);
                 </a>
                 <span class="header__account-name">
                     <?= Yii::$app->user->getIdentity()->email; ?>
-                    <?php var_dump(Yii::$app->user);?>
              </span>
             </div>
             <div class="account__pop-up">

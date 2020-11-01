@@ -68,7 +68,7 @@ AppAsset::register($this);
                         <a href="<?= Url::to('/users') ?>">Исполнители</a>
                     </li>
                     <li class="site-list__item">
-                        <a href="#">Создать задание</a>
+                        <a href="<?= Url::to('/tasks/create');?>">Создать задание</a>
                     </li>
                     <li class="site-list__item">
                         <a href="#">Мой профиль</a>

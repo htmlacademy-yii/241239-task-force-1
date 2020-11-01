@@ -10,8 +10,7 @@ use Yii;
  * @property int $id
  * @property string $name
  * @property string $description
- * @property string $status
- * @property string $action
+ * @property string $status_id
  * @property int $price
  * @property int $category_id
  * @property int $author_id
@@ -48,11 +47,11 @@ class Task extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'description', 'status', 'action', 'price', 'category_id', 'author_id', 'executor_id', 'city_id'], 'required'],
+            [['name', 'description', 'price', 'category_id', 'author_id'], 'required'],
             [['price', 'category_id', 'author_id', 'executor_id', 'city_id'], 'integer'],
             [['latitude', 'longitude'], 'number'],
             [['created_at', 'finished_at'], 'safe'],
-            [['name', 'description', 'status', 'action'], 'string', 'max' => 255],
+            [['name', 'description'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['author_id' => 'id']],
             [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['executor_id' => 'id']],

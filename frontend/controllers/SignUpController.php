@@ -34,7 +34,7 @@ class SignUpController extends Controller
             'access' => [
                 'class' => AccessControl::class,
                 'denyCallback' => function ($rule, $action) {
-                    return $this->redirect('/tasks');
+                    return $this->redirect(['/tasks']);
                 },
                 'rules' => [
                     [

@@ -4,11 +4,14 @@
 namespace frontend\controllers;
 
 
+use frontend\models\forms\TaskCreateForm;
 use frontend\models\forms\TaskForm;
 use frontend\models\Status;
 use frontend\models\Task;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 
 class TasksController extends SecuredController
 {
@@ -34,5 +37,28 @@ class TasksController extends SecuredController
         return $this->render('view', [
             'task' => $task
         ]);
+    }
+
+    public function actionCreate()
+    {
+        $model = new TaskCreateForm();
+        $model->load(Yii::$app->request->post());
+
+
+        if (Yii::$app->request->isPost) {
+            $model->saveTask();
+            $this->redirect(['/tasks']);
+        }
+
+        return $this->render('create', [
+            'model' => $model
+        ]);
+    }
+
+    public function behaviors()
+    {
+        $rules = parent::behaviors();
+
+        return $rules;
     }
 }

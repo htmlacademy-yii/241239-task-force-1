@@ -55,9 +55,20 @@ class TasksController extends SecuredController
         ]);
     }
 
+
     public function behaviors()
     {
         $rules = parent::behaviors();
+        $rule = [
+            'allow' => true,
+            'actions' => ['create'],
+            'matchCallback' => function ($rule, $action) {
+                $user = Yii::$app->user->getIdentity();
+                return $user->isAuthor();
+            }
+        ];
+
+        array_unshift($rules['access']['rules'], $rule);
 
         return $rules;
     }

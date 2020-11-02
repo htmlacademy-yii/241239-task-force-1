@@ -56,3 +56,7 @@ if (starRating.length) {
     inputField.value = rating;
   });
 }
+
+if (document.querySelector('.create__file')) {
+  var dropzone = new Dropzone("div.create__file", {url: "/", paramName: "Attach"});
+}

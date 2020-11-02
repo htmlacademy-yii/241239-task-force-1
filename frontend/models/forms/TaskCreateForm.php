@@ -4,9 +4,11 @@
 namespace frontend\models\forms;
 
 
+use frontend\models\Attachment;
 use frontend\models\Status;
 use frontend\models\Task;
 use yii\base\Model;
+use yii\web\UploadedFile;
 
 class TaskCreateForm extends Model
 {
@@ -20,7 +22,8 @@ class TaskCreateForm extends Model
     public function rules()
     {
         return [
-            [['title', 'description', 'category', 'files', 'budget', 'time'], 'safe']
+            [['title', 'description', 'category', 'files', 'budget', 'time'], 'safe'],
+            [['title', 'description', 'category', 'budget'], 'required']
         ];
     }
 
@@ -34,6 +37,23 @@ class TaskCreateForm extends Model
             'budget' => 'Бюджет',
             'time' => 'Время окончания'
         ];
+    }
+
+    public function upload($task)
+    {
+        if ($this->validate()) {
+            $this->files = UploadedFile::getInstances($this, 'files');
+
+            foreach ($this->files as $file) {
+                $name = 'uploads/' . $file->baseName . '.' . $file->extension;
+                $file->saveAs($name);
+                $uploadedFile = new Attachment();
+                $uploadedFile->name = $file->baseName . '.' . $file->extension;
+                $uploadedFile->url = $name;
+                $uploadedFile->task_id = (int) $task->id;
+                $uploadedFile->save();
+            }
+        }
     }
 
     public function saveTask()
@@ -51,6 +71,7 @@ class TaskCreateForm extends Model
         $task->category_id =  (int) $this->category;
         $task->author_id = \Yii::$app->user->getId();
 
+        $this->upload($task);
         $task->save();
     }
 

@@ -12,6 +12,7 @@ use yii\widgets\ActiveForm;
         <?php $form = ActiveForm::begin([
             'options' => ['class' => 'create__task-form form-create', 'id' => 'task-form', 'enctype' => 'multipart/form-data'],
             'action' => '/tasks/create',
+            'method' => 'post'
         ]); ?>
         <?= $form->field($model, 'title',
             ['inputOptions' => ['class' => 'input textarea', 'placeholder' => 'Повесить полку'],
@@ -67,13 +68,15 @@ use yii\widgets\ActiveForm;
                     что всё в фокусе, а фото показывает объект со всех
                     ракурсов.</p>
             </div>
-            <div class="warning-item warning-item--error">
-                <h2>Ошибки заполнения формы</h2>
-                <h3>Категория</h3>
-                <p>Это поле должно быть выбрано.<br>
-                    Задание должно принадлежать одной из категорий</p>
-            </div>
+
+            <?php if ($model->hasErrors()): ?>
+                <div class="warning-item warning-item--error">
+                    <h2>Ошибки заполнения формы</h2>
+                    <?= $model->getErrorSummary(true); ?>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
     <button form="task-form" class="button" type="submit">Опубликовать</button>
 </section>
+

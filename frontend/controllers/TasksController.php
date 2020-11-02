@@ -45,8 +45,9 @@ class TasksController extends SecuredController
         $model->load(Yii::$app->request->post());
 
         if (Yii::$app->request->post()) {
-            $model->saveTask();
-            $this->redirect(['/tasks']);
+            if ($model->saveTask()) {
+                $this->redirect(['/tasks']);
+            }
         }
 
         return $this->render('create', [

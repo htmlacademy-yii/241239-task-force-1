@@ -23,7 +23,7 @@ class TaskCreateForm extends Model
     {
         return [
             [['title', 'description', 'category', 'files', 'budget', 'time'], 'safe'],
-            [['title', 'description', 'category', 'budget'], 'required']
+            [['title', 'description', 'category', 'budget'], 'required'],
         ];
     }
 
@@ -43,17 +43,18 @@ class TaskCreateForm extends Model
     {
         if ($this->validate()) {
             $this->files = UploadedFile::getInstances($this, 'files');
-
             foreach ($this->files as $file) {
                 $name = 'uploads/' . $file->baseName . '.' . $file->extension;
                 $file->saveAs($name);
                 $uploadedFile = new Attachment();
-                $uploadedFile->name = $file->baseName . '.' . $file->extension;
                 $uploadedFile->url = $name;
                 $uploadedFile->task_id = (int) $task->id;
                 $uploadedFile->save();
             }
+
+            return true;
         }
+        return false;
     }
 
     public function saveTask()
@@ -71,8 +72,9 @@ class TaskCreateForm extends Model
         $task->category_id =  (int) $this->category;
         $task->author_id = \Yii::$app->user->getId();
 
-        $this->upload($task);
         $task->save();
+
+        $this->upload($task);
     }
 
 }

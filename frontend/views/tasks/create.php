@@ -33,7 +33,7 @@ use yii\widgets\ActiveForm;
         <div class="create__file">
             <span>Добавить новый файл</span>
             <?= $form->field($model, 'files',
-                ['inputOptions' => ['class' => 'dropzone'], 'options' => ['tag' => false], 'template' => '{error}'])
+                ['inputOptions' => ['class' => 'dropzone'], 'options' => ['tag' => false]])
                 ->fileInput(['multiple' => true, 'accept' => 'image/*']) ?>
         </div>
 

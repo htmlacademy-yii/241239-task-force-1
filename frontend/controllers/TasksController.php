@@ -12,6 +12,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
+use function foo\func;
 
 class TasksController extends SecuredController
 {
@@ -55,16 +56,35 @@ class TasksController extends SecuredController
         ]);
     }
 
+    public function actionLoadFiles()
+    {
+        if (Yii::$app->request->isAjax) {
+            $images = Yii::$app->request->post();
+        }
+    }
+
+    public function beforeAction($action)
+    {
+        if ($this->action->id == 'load-files') {
+            $this->enableCsrfValidation = false;
+        }
+
+        return true;
+    }
+
 
     public function behaviors()
     {
         $rules = parent::behaviors();
         $rule = [
-            'allow' => true,
+            'allow' => false,
             'actions' => ['create'],
             'matchCallback' => function ($rule, $action) {
                 $user = Yii::$app->user->getIdentity();
-                return $user->isAuthor();
+                return !$user->isAuthor();
+            },
+            'denyCallback' => function ($rule, $action) {
+                return $this->goHome();
             }
         ];
 

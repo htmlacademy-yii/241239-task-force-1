@@ -32,9 +32,7 @@ use yii\widgets\ActiveForm;
         <span>Загрузите файлы, которые помогут исполнителю лучше выполнить или оценить работу</span>
         <div class="create__file">
             <span>Добавить новый файл</span>
-            <?= $form->field($model, 'files',
-                ['inputOptions' => ['class' => 'dropzone'], 'options' => ['tag' => false]])
-                ->fileInput(['multiple' => true, 'accept' => 'image/*']) ?>
+            <!--                          <input type="file" name="files[]" class="dropzone">-->
         </div>
 
         <div class="create__price-time">
@@ -68,7 +66,7 @@ use yii\widgets\ActiveForm;
                     что всё в фокусе, а фото показывает объект со всех
                     ракурсов.</p>
             </div>
-
+            <?php  var_dump($model->errors); ?>
             <?php if ($model->hasErrors()): ?>
                 <div class="warning-item warning-item--error">
                     <h2>Ошибки заполнения формы</h2>

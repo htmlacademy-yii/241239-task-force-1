@@ -5,6 +5,7 @@ namespace frontend\models\forms;
 
 
 use frontend\models\Attachment;
+use frontend\models\Categories;
 use frontend\models\Status;
 use frontend\models\Task;
 use yii\base\Model;
@@ -24,7 +25,12 @@ class TaskCreateForm extends Model
         return [
             [['title', 'description', 'category', 'files', 'budget', 'time'], 'safe'],
             [['title', 'description', 'category', 'budget'], 'required'],
+            [['title', 'description'], 'string', 'min' => 1],
+            [['category'], 'exist', 'targetClass' => Categories::class, 'targetAttribute' => 'id'],
+            [['budget'], 'number', 'min' => '1'],
+            [['files'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 0],
         ];
+
     }
 
     public function attributeLabels()
@@ -43,6 +49,7 @@ class TaskCreateForm extends Model
     {
         if ($this->validate()) {
             $this->files = UploadedFile::getInstances($this, 'files');
+
             foreach ($this->files as $file) {
                 $name = 'uploads/' . $file->baseName . '.' . $file->extension;
                 $file->saveAs($name);

@@ -66,7 +66,6 @@ use yii\widgets\ActiveForm;
                     что всё в фокусе, а фото показывает объект со всех
                     ракурсов.</p>
             </div>
-            <?php  var_dump($model->errors); ?>
             <?php if ($model->hasErrors()): ?>
                 <div class="warning-item warning-item--error">
                     <h2>Ошибки заполнения формы</h2>

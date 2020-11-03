@@ -12,6 +12,8 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 use function foo\func;
 
 class TasksController extends SecuredController
@@ -45,7 +47,8 @@ class TasksController extends SecuredController
         $model = new TaskCreateForm();
         $model->load(Yii::$app->request->post());
 
-        if (Yii::$app->request->post()) {
+
+        if (Yii::$app->request->isPost) {
             if ($model->saveTask()) {
                 $this->redirect(['/tasks']);
             }

@@ -12,7 +12,8 @@ use yii\widgets\ActiveForm;
         <?php $form = ActiveForm::begin([
             'options' => ['class' => 'create__task-form form-create', 'id' => 'task-form', 'enctype' => 'multipart/form-data'],
             'action' => '/tasks/create',
-            'method' => 'post'
+            'method' => 'post',
+            'enableClientValidation' => false
         ]); ?>
         <?= $form->field($model, 'title',
             ['inputOptions' => ['class' => 'input textarea', 'placeholder' => 'Повесить полку'],
@@ -69,7 +70,10 @@ use yii\widgets\ActiveForm;
             <?php if ($model->hasErrors()): ?>
                 <div class="warning-item warning-item--error">
                     <h2>Ошибки заполнения формы</h2>
-                    <?= $model->getErrorSummary(true); ?>
+                    <?php $mistakes = $model->getErrorSummary(true); ?>
+                    <?php foreach ($mistakes as $mistake): ?>
+                        <p><?=$mistake;?></p>
+                    <?php endforeach; ?>
                 </div>
             <?php endif; ?>
         </div>

@@ -65,7 +65,7 @@ class TasksController extends SecuredController
 
         if (Yii::$app->request->isAjax) {
             $model = new Attachment();
-            $model->upload(Yii::$app->request->post());
+            $model->upload();
         }
     }
 

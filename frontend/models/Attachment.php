@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "attachment".
@@ -56,5 +57,10 @@ class Attachment extends \yii\db\ActiveRecord
     public function getTask()
     {
         return $this->hasOne(Task::className(), ['id' => 'task_id']);
+    }
+
+    public function upload()
+    {
+        //Вот тут загружаем файлы.
     }
 }

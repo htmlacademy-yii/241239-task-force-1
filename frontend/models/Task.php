@@ -11,6 +11,7 @@ use Yii;
  * @property string $name
  * @property string $description
  * @property string $status_id
+ * @property string $att_id
  * @property int $price
  * @property int $category_id
  * @property int $author_id

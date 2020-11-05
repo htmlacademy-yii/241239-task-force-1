@@ -45,24 +45,7 @@ class TaskCreateForm extends Model
         ];
     }
 
-    public function upload($task)
-    {
-        if ($this->validate()) {
-            $this->files = UploadedFile::getInstances($this, 'files');
 
-            foreach ($this->files as $file) {
-                $name = 'uploads/' . $file->baseName . '.' . $file->extension;
-                $file->saveAs($name);
-                $uploadedFile = new Attachment();
-                $uploadedFile->url = $name;
-                $uploadedFile->task_id = (int) $task->id;
-                $uploadedFile->save();
-            }
-
-            return true;
-        }
-        return false;
-    }
 
     public function saveTask()
     {
@@ -78,10 +61,12 @@ class TaskCreateForm extends Model
         $task->price =  (int) $this->budget;
         $task->category_id =  (int) $this->category;
         $task->author_id = \Yii::$app->user->getId();
+        $task->att_id = \Yii::$app->session->get('att_id');
 
         $task->save();
 
-        $this->upload($task);
+        \Yii::$app->session->remove('att_id');
+        return true;
     }
 
 }

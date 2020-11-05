@@ -4,6 +4,7 @@
 namespace frontend\controllers;
 
 
+use frontend\models\Attachment;
 use frontend\models\forms\TaskCreateForm;
 use frontend\models\forms\TaskForm;
 use frontend\models\Status;
@@ -50,7 +51,7 @@ class TasksController extends SecuredController
 
         if (Yii::$app->request->isPost) {
             if ($model->saveTask()) {
-                $this->redirect(['/tasks']);
+                $this->goHome();
             }
         }
 
@@ -61,8 +62,13 @@ class TasksController extends SecuredController
 
     public function actionLoadFiles()
     {
+        $key = Yii::$app->session->get('att_id');
+        if (!isset($key)) {
+            Yii::$app->session->set('att_id', uniqid());
+        }
         if (Yii::$app->request->isAjax) {
-            $images = Yii::$app->request->post();
+            $model = new Attachment();
+            $model->upload();
         }
     }
 

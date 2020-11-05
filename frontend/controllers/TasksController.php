@@ -47,7 +47,7 @@ class TasksController extends SecuredController
     {
         $model = new TaskCreateForm();
         $model->load(Yii::$app->request->post());
-
+        Yii::$app->session->set('att_id', uniqid());
 
         if (Yii::$app->request->isPost) {
             if ($model->saveTask()) {
@@ -62,13 +62,10 @@ class TasksController extends SecuredController
 
     public function actionLoadFiles()
     {
-        $key = Yii::$app->session->get('att_id');
-        if (!isset($key)) {
-            Yii::$app->session->set('att_id', uniqid());
-        }
+
         if (Yii::$app->request->isAjax) {
             $model = new Attachment();
-            $model->upload();
+            $model->upload(Yii::$app->request->post());
         }
     }
 

@@ -58,7 +58,13 @@ if (starRating.length) {
 }
 
 if (document.querySelector('.create__file')) {
-  var dropzone = new Dropzone("div.create__file",
-    {url: "./load-files", paramName: "Attach"}
+  var dropzone = new Dropzone("div.create__file", {
+      url: "./load-files",
+      paramName: "attach",
+      accept: function (file, done) {
+        console.log(file);
+        done();
+      }
+  }
     );
 }

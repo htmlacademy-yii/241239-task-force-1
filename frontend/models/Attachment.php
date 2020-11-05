@@ -59,8 +59,8 @@ class Attachment extends \yii\db\ActiveRecord
         return $this->hasOne(Task::className(), ['id' => 'task_id']);
     }
 
-    public function upload()
+    public function upload($request)
     {
-        //Вот тут загружаем файлы.
+        echo $request['attach'];
     }
 }

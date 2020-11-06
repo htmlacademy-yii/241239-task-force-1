@@ -14,6 +14,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use yii\web\Response;
+use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
 use function foo\func;
 
@@ -47,12 +48,16 @@ class TasksController extends SecuredController
     {
         $model = new TaskCreateForm();
         $model->load(Yii::$app->request->post());
-        Yii::$app->session->set('att_id', uniqid());
 
         if (Yii::$app->request->isPost) {
+            $att_id = Yii::$app->session->get('att_id');
+
             if ($model->saveTask()) {
                 $this->goHome();
             }
+        }
+        else {
+            Yii::$app->session->set('att_id', uniqid());
         }
 
         return $this->render('create', [
@@ -62,16 +67,28 @@ class TasksController extends SecuredController
 
     public function actionLoadFiles()
     {
-
         if (Yii::$app->request->isAjax) {
-            $model = new Attachment();
-            $model->upload();
+            $files = UploadedFile::getInstancesByName('attach');
+
+            foreach ($files as $file) {
+                $newname = uniqid('upload') . '.' . $file->getExtension();
+                $file->saveAs('@webroot/uploads/' . $newname);
+
+                $attach = new Attachment();
+                $attach->name = $newname;
+                $attach->url = '/uploads/' . $newname;
+                $attach->attach_uuid = Yii::$app->session->get('att_id');
+                $attach->save();
+            }
+
+            return true;
         }
     }
 
     public function beforeAction($action)
     {
         if ($this->action->id == 'load-files') {
+            Yii::$app->response->format = Response::FORMAT_JSON;
             $this->enableCsrfValidation = false;
         }
 

@@ -17,6 +17,7 @@ use yii\web\UploadedFile;
 class Attachment extends \yii\db\ActiveRecord
 {
     public $file;
+
     /**
      * {@inheritdoc}
      */
@@ -54,7 +55,7 @@ class Attachment extends \yii\db\ActiveRecord
      */
     public function getTask()
     {
-        return $this->hasOne(Task::className(), ['id' => 'task_id']);
+        return $this->hasOne(Task::class, ['id' => 'attach_uuid']);
     }
 
     public function upload()

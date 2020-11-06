@@ -90,7 +90,7 @@ class Task extends \yii\db\ActiveRecord
      */
     public function getAttachments()
     {
-        return $this->hasMany(Attachment::className(), ['task_id' => 'id']);
+        return $this->hasMany(Attachment::className(), ['attach_uuid' => 'att_id']);
     }
 
     /**

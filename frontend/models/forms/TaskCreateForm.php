@@ -60,7 +60,7 @@ class TaskCreateForm extends Model
         $task->status_id = Status::STATUS_NEW;
         $task->price =  (int) $this->budget;
         $task->category_id =  (int) $this->category;
-        $task->author_id = \Yii::$app->user->getId();
+        $task->author_id = \Yii::$app->user->userInfos->id;
         $task->att_id = \Yii::$app->session->get('att_id');
 
         $task->save();

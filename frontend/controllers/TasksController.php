@@ -50,8 +50,6 @@ class TasksController extends SecuredController
         $model->load(Yii::$app->request->post());
 
         if (Yii::$app->request->isPost) {
-            $att_id = Yii::$app->session->get('att_id');
-
             if ($model->saveTask()) {
                 $this->goHome();
             }

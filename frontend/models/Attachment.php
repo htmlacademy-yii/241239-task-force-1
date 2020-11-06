@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "attachment".
@@ -15,6 +16,8 @@ use Yii;
  */
 class Attachment extends \yii\db\ActiveRecord
 {
+    public $file;
+
     /**
      * {@inheritdoc}
      */
@@ -29,10 +32,7 @@ class Attachment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['task_id', 'url'], 'required'],
-            [['task_id'], 'integer'],
-            [['url'], 'string', 'max' => 255],
-            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Task::className(), 'targetAttribute' => ['task_id' => 'id']],
+            [['task_id', 'url'], 'safe'],
         ];
     }
 
@@ -55,6 +55,25 @@ class Attachment extends \yii\db\ActiveRecord
      */
     public function getTask()
     {
-        return $this->hasOne(Task::className(), ['id' => 'task_id']);
+        return $this->hasOne(Task::class, ['id' => 'attach_uuid']);
+    }
+
+    public function upload()
+    {
+        if ($this->validate()) {
+
+            $file = UploadedFile::getInstances($this, 'file');
+            $name = 'uploads/' . $file->baseName . '.' . $file->extension;
+            $file->saveAs($name);
+
+
+            $this->url = $name;
+            $this->save();
+
+
+            return true;
+        } else {
+            return false;
+        }
     }
 }

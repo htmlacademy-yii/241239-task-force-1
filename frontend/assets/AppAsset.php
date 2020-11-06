@@ -15,6 +15,8 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
+        'js/dropzone.js',
+        'js/main.js'
     ];
 
     public $depends = [

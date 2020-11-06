@@ -273,4 +273,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         // TODO: Implement getAuthKey() method.
     }
+
+    public function isAuthor()
+    {
+        return  $this->userInfos->role_id === self::CUSTOMER_ROLE;
+    }
 }
